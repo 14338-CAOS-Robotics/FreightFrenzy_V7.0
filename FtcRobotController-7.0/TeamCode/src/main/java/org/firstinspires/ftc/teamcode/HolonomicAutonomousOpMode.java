@@ -34,6 +34,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
@@ -47,7 +49,7 @@ public class HolonomicAutonomousOpMode extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
+    private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, LiftMotor;
     HolonomicDrive holonomicDrive;
 
 
@@ -58,12 +60,16 @@ public class HolonomicAutonomousOpMode extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-        FrontRightMotor  = hardwareMap.get(DcMotor.class, "frontRight");
-        FrontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");
-        BackRightMotor  = hardwareMap.get(DcMotor.class, "backRight");
-        BackLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
+        FrontRightMotor  = hardwareMap.get(DcMotor.class, "front_right_drive");
+        FrontLeftMotor = hardwareMap.get(DcMotor.class, "front_left_drive");
+        BackRightMotor  = hardwareMap.get(DcMotor.class, "back_right_drive");
+        BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
+        LiftMotor = hardwareMap.get(DcMotor.class, "lift_motor");
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
+        LiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -100,36 +106,16 @@ public class HolonomicAutonomousOpMode extends LinearOpMode {
         }
 
 
-//        ///MAKE A DIAMOND
-//
-//        //Step 1: MOVE DIAGONALLY RIGHT UP FOR 1 SECOND
-//        runtime.reset();
-//        holonomicDrive.autoDrive(45, 0.5);
-//        while (opModeIsActive() && runtime.seconds() < 1.0){
-//            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
-//        //Step 2: MOVE DIAGONALLY RIGHT DOWN FOR 1 SECOND
-//        runtime.reset();
-//        holonomicDrive.autoDrive(135, 0.5);
-//        while (opModeIsActive() && runtime.seconds() < 1.0){
-//            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
-//        //Step 3: MOVE DIAGONALLY LEFT BACK FOR 1 SECOND
-//        runtime.reset();
-//        holonomicDrive.autoDrive(225, 0.5);
-//        while (opModeIsActive() && runtime.seconds() < 1.0){
-//            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
-//        //Step 4: MOVE DIAGONALLY LEFT UP FOR 1 SECOND
-//        runtime.reset();
-//        holonomicDrive.autoDrive(315, 0.5);
-//        while (opModeIsActive() && runtime.seconds() < 1.0){
-//            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
-//         runtime.reset();
+
+        // Drive to the freight tower
+
+
+        /** Now just make a test loop to lift the LiftMotor at 0.3 power for 0.5 seconds */
+
+
+        // Release your cube
+
+
+        // And park
     }
 }
