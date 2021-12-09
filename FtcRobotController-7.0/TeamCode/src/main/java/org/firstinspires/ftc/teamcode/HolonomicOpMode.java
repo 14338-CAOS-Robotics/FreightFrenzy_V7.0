@@ -95,7 +95,7 @@ public class HolonomicOpMode extends OpMode
         double x = -gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
         double z = -gamepad1.right_stick_x;
-        double RightJoyY = gamepad1.right_stick_y;
+        double RightJoyY = -gamepad1.right_stick_y;
 
         boolean Y_1Button = gamepad1.y;
         boolean YIsPressed = false;
@@ -200,6 +200,7 @@ public class HolonomicOpMode extends OpMode
 //            BIsPressed = false;
 //
 //        }
+        //
 
 
 
