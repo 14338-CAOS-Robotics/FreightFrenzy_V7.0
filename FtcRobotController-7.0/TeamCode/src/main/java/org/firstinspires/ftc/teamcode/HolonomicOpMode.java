@@ -104,7 +104,7 @@ public class HolonomicOpMode extends OpMode
         double x = -gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
         double z = -gamepad1.right_stick_x;
-        double RightJoyY = gamepad1.right_stick_y;
+        double RightJoyY = -gamepad1.right_stick_y;
 
         boolean B_1Button = gamepad1.b;
         boolean A_1Button = gamepad1.a;
@@ -179,12 +179,12 @@ public class HolonomicOpMode extends OpMode
             RBIsPressed = false;
         }
 
-        if(DPL_1Button == true && DPADLeftIsPressed == false) {
+        if(DPL_1Button && !DPADLeftIsPressed) {
             DPADLeftIsPressed = true;
             intakeServo.setPower(0.5);
         }
-        else if(A_1Button == false) {
-            DPADLeftIsPressed = true;
+        else if(!DPL_1Button) {
+            DPADLeftIsPressed = false;
             intakeServo.setPower(0);
         }
 
