@@ -32,11 +32,18 @@ public class HolonomicOpMode extends OpMode
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
     private DcMotorEx LiftMotor;
-    private CRServo CMotor1, CMotor2;
+    private CRServo CMotor1, CMotor2, intakeServo;
     private int[] liftPos = {0, 1000, 2000, 4000, 6000, 8000, 10000};
     private int currentLiftPosition = 0;
     private Servo LeftArm, RightArm;
     HolonomicDrive holonomicDrive;
+    boolean YIsPressed = false;
+    boolean XIsPressed = false;
+    boolean BIsPressed = false;
+    boolean AIsPressed = false;
+    boolean RBIsPressed = false;
+    boolean LBIsPressed = false;
+    boolean DPADLeftIsPressed = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -57,6 +64,8 @@ public class HolonomicOpMode extends OpMode
         RightArm = hardwareMap.get(Servo.class, "right_arm");
         CMotor1 = hardwareMap.get(CRServo.class, "carousel_motor_1");
         CMotor2 = hardwareMap.get(CRServo.class, "carousel_motor_2");
+        intakeServo = hardwareMap.get(CRServo.class, "intake_servo");
+
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
 
@@ -97,18 +106,15 @@ public class HolonomicOpMode extends OpMode
         double z = -gamepad1.right_stick_x;
         double RightJoyY = gamepad1.right_stick_y;
 
-        boolean Y_1Button = gamepad1.y;
-        boolean YIsPressed = false;
-        boolean X_1Button = gamepad1.x;
-        boolean XIsPressed = false;
         boolean B_1Button = gamepad1.b;
-        boolean BIsPressed = false;
         boolean A_1Button = gamepad1.a;
-        boolean AIsPressed = false;
         boolean RB_1Button = gamepad1.right_bumper;
-        boolean RBIsPressed = false;
+        boolean X_1Button = gamepad1.x;
+        boolean Y_1Button = gamepad1.y;
         boolean LB_1Button = gamepad1.left_bumper;
-        boolean LBIsPressed = false;
+        boolean DPL_1Button = gamepad1.dpad_down;
+
+
 
 
 
@@ -173,38 +179,45 @@ public class HolonomicOpMode extends OpMode
             RBIsPressed = false;
         }
 
+        if(DPL_1Button == true && DPADLeftIsPressed == false) {
+            DPADLeftIsPressed = true;
+            intakeServo.setPower(0.5);
+        }
+        else if(A_1Button == false) {
+            DPADLeftIsPressed = true;
+            intakeServo.setPower(0);
+        }
 
+        // Make the lift go UP
+        if(Y_1Button && !YIsPressed && currentLiftPosition < (liftPos.length - 1)){
+            YIsPressed = true;
+            currentLiftPosition += 1;
+            LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
+            LiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            LiftMotor.setPower(0.5);
 
-//        // Make the lift go UP
-//        if(A_1Button && !AIsPressed && currentLiftPosition < (liftPos.length - 1)){
-//            AIsPressed = true;
-//            currentLiftPosition += 1;
-//            LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
-//            LiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            LiftMotor.setPower(0.5);
-//
-//        } else if(!A_1Button) {
-//            AIsPressed = false;
-//
-//        }
-//
-//        //Make the lift go down
-//        if(B_1Button && !BIsPressed && currentLiftPosition > 0){
-//            BIsPressed = true;
-//            currentLiftPosition -= 1;
-//            LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
-//            LiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            LiftMotor.setPower(0.5);
-//
-//        } else if(!B_1Button) {
-//            BIsPressed = false;
-//
-//        }
+        } else if(!Y_1Button) {
+            YIsPressed = false;
+
+        }
+
+        //Make the lift go down
+        if(X_1Button && !XIsPressed && currentLiftPosition > 0){
+            XIsPressed = true;
+            currentLiftPosition -= 1;
+            LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
+            LiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            LiftMotor.setPower(0.5);
+
+        } else if(!X_1Button) {
+            XIsPressed = false;
+        }
 
 
 
 
         LiftMotor.setPower(RightJoyY);
+
         holonomicDrive.teleopDrive(x,y,z);
 
         // Show the elapsed game time and wheel power.

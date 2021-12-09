@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="30316045-be66-4792-9d7f-8b070578d424" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FtcRobotController-7.0/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/HolonomicAutonomousOpMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController-7.0/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/HolonomicAutonomousOpMode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FtcRobotController-7.0/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/HolonomicOpMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/FtcRobotController-7.0/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/HolonomicOpMode.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="224LM8N10cAMkOfkEra2TUJUZ7K" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/FtcRobotController-7.0" />
+    <property name="settings.editor.selected.configurable" value="instant.run" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="30316045-be66-4792-9d7f-8b070578d424" name="Default Changelist" comment="" />
+      <created>1639091861518</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1639091861518</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1639091896092">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1639091896092" />
+  </component>
+</project>
