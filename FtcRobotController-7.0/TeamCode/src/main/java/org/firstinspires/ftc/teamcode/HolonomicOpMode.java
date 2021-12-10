@@ -195,7 +195,7 @@ public class HolonomicOpMode extends OpMode
 
         if(RT_1Button != 0 && !RTIsPressed) {
             RTIsPressed = true;
-            intakeServo.setPower(0.5);
+            intakeServo.setPower(-0.5);
         }
         else if(RT_1Button == 0) {
             RTIsPressed = false;
