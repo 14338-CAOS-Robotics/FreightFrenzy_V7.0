@@ -117,8 +117,8 @@ public class HolonomicOpMode extends OpMode
         boolean LB_1Button = gamepad1.left_bumper;
         boolean DPL_1Button = gamepad1.dpad_left;
         boolean DPR_1Button = gamepad1.dpad_right;
-        float LT_1Button = gamepad1.left_trigger;
-        float RT_1Button = gamepad1.right_trigger;
+        double LT_1Button = gamepad1.left_trigger;
+        double RT_1Button = gamepad1.right_trigger;
 
 
 
@@ -148,7 +148,7 @@ public class HolonomicOpMode extends OpMode
         if(X_1Button == true && XIsPressed == false){
             XIsPressed = true;
             LeftArm.setPosition(0);
-            RightArm.setPosition(-0.5);
+            RightArm.setPosition(0.5);
         }
         else if(X_1Button == false){
             XIsPressed = true;
@@ -184,20 +184,20 @@ public class HolonomicOpMode extends OpMode
             RBIsPressed = false;
         }
 
-        if(LT_1Button != 0 && !LTIsPressed) {
+        if(LT_1Button > 0 && !LTIsPressed) {
             LTIsPressed = true;
             intakeServo.setPower(0.5);
         }
-        else if(LT_1Button == 0) {
+        else if(!(LT_1Button > 0)) {
             LTIsPressed = false;
             intakeServo.setPower(0);
         }
 
-        if(RT_1Button != 0 && !RTIsPressed) {
+        if(RT_1Button > 0 && !RTIsPressed) {
             RTIsPressed = true;
             intakeServo.setPower(-0.5);
         }
-        else if(RT_1Button == 0) {
+        else if(!(RT_1Button > 0)) {
             RTIsPressed = false;
             intakeServo.setPower(0);
         }
