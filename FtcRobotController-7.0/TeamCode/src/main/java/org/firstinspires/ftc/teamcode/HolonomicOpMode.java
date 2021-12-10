@@ -33,7 +33,7 @@ public class HolonomicOpMode extends OpMode
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
     private DcMotorEx LiftMotor;
     private CRServo CMotor1, CMotor2, intakeServo;
-    private int[] liftPos = {0, 1000, 2000, 4000, 6000, 8000, 10000};
+    private int[] liftPos = {0, 400, 1150, 2050, 6000, 8000, 10000};
     private int currentLiftPosition = 0;
     private Servo LeftArm, RightArm;
     HolonomicDrive holonomicDrive;
@@ -44,6 +44,7 @@ public class HolonomicOpMode extends OpMode
     boolean RBIsPressed = false;
     boolean LBIsPressed = false;
     boolean DPADLeftIsPressed = false;
+    boolean DPADRightIsPressed = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -80,9 +81,9 @@ public class HolonomicOpMode extends OpMode
     @Override
     public void init_loop() {
         LiftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        //LiftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        //LiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        LiftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        LiftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        LiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        //LiftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
         LiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -112,7 +113,8 @@ public class HolonomicOpMode extends OpMode
         boolean X_1Button = gamepad1.x;
         boolean Y_1Button = gamepad1.y;
         boolean LB_1Button = gamepad1.left_bumper;
-        boolean DPL_1Button = gamepad1.dpad_down;
+        boolean DPL_1Button = gamepad1.dpad_left;
+        boolean DPR_1Button = gamepad1.dpad_right;
 
 
 
@@ -142,8 +144,8 @@ public class HolonomicOpMode extends OpMode
         // Open wheels
         if(X_1Button == true && XIsPressed == false){
             XIsPressed = true;
-            LeftArm.setPosition(0.3);
-            RightArm.setPosition(0.3);
+            LeftArm.setPosition(0);
+            RightArm.setPosition(-0.5);
         }
         else if(X_1Button == false){
             XIsPressed = true;
@@ -152,7 +154,7 @@ public class HolonomicOpMode extends OpMode
         //Close
         if(Y_1Button == true && YIsPressed == false) {
             YIsPressed = true;
-            LeftArm.setPosition(0);
+            LeftArm.setPosition(0.5);
             RightArm.setPosition(0);
         }
         else if(Y_1Button == false) {
@@ -185,6 +187,15 @@ public class HolonomicOpMode extends OpMode
         }
         else if(!DPL_1Button) {
             DPADLeftIsPressed = false;
+            intakeServo.setPower(0);
+        }
+
+        if(DPR_1Button && !DPADRightIsPressed) {
+            DPADRightIsPressed = true;
+            intakeServo.setPower(0.5);
+        }
+        else if(!DPR_1Button) {
+            DPADRightIsPressed = false;
             intakeServo.setPower(0);
         }
 
