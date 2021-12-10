@@ -45,6 +45,8 @@ public class HolonomicOpMode extends OpMode
     boolean LBIsPressed = false;
     boolean DPADLeftIsPressed = false;
     boolean DPADRightIsPressed = false;
+    boolean LTIsPressed = false;
+    boolean RTIsPressed = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -115,7 +117,8 @@ public class HolonomicOpMode extends OpMode
         boolean LB_1Button = gamepad1.left_bumper;
         boolean DPL_1Button = gamepad1.dpad_left;
         boolean DPR_1Button = gamepad1.dpad_right;
-
+        float LT_1Button = gamepad1.left_trigger;
+        float RT_1Button = gamepad1.right_trigger;
 
 
 
@@ -181,21 +184,21 @@ public class HolonomicOpMode extends OpMode
             RBIsPressed = false;
         }
 
-        if(DPL_1Button && !DPADLeftIsPressed) {
-            DPADLeftIsPressed = true;
+        if(LT_1Button != 0 && !LTIsPressed) {
+            LTIsPressed = true;
             intakeServo.setPower(0.5);
         }
-        else if(!DPL_1Button) {
-            DPADLeftIsPressed = false;
+        else if(LT_1Button == 0) {
+            LTIsPressed = false;
             intakeServo.setPower(0);
         }
 
-        if(DPR_1Button && !DPADRightIsPressed) {
-            DPADRightIsPressed = true;
+        if(RT_1Button != 0 && !RTIsPressed) {
+            RTIsPressed = true;
             intakeServo.setPower(0.5);
         }
-        else if(!DPR_1Button) {
-            DPADRightIsPressed = false;
+        else if(RT_1Button == 0) {
+            RTIsPressed = false;
             intakeServo.setPower(0);
         }
 
