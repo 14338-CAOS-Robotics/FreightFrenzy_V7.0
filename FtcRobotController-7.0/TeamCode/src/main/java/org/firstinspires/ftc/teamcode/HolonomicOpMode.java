@@ -207,8 +207,8 @@ public class HolonomicOpMode extends OpMode
             YIsPressed = true;
             currentLiftPosition += 1;
             LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
-            LiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            LiftMotor.setPower(0.5);
+            LiftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            LiftMotor.setPower(-0.5);
 
         } else if(!Y_1Button) {
             YIsPressed = false;
@@ -220,8 +220,8 @@ public class HolonomicOpMode extends OpMode
             XIsPressed = true;
             currentLiftPosition -= 1;
             LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
-            LiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            LiftMotor.setPower(0.5);
+            LiftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            LiftMotor.setPower(-0.5);
 
         } else if(!X_1Button) {
             XIsPressed = false;
@@ -236,7 +236,7 @@ public class HolonomicOpMode extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        //telemetry.addLine("Current Lift position: " + currentLiftPosition + "\nCurrent Lift Ticks: " + liftPos[currentLiftPosition]);
+        telemetry.addLine("Current Lift position: " + currentLiftPosition + "\nCurrent Lift Ticks: " + liftPos[currentLiftPosition]);
         telemetry.addLine("Current Lift Motor Ticks: "  + LiftMotor.getCurrentPosition());
         telemetry.update();
     }
