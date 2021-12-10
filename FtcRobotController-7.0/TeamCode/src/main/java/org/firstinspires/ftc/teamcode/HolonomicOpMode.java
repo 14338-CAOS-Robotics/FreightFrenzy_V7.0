@@ -87,7 +87,7 @@ public class HolonomicOpMode extends OpMode
         LiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         //LiftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        LiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //LiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
 
