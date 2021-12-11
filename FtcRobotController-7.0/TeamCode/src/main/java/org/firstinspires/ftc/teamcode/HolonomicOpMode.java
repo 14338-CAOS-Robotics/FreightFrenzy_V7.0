@@ -247,6 +247,13 @@ public class HolonomicOpMode extends OpMode
 
         //failsafe to test if mainual control is or isn't working
     if(RightJoyY > 0) {
+        LiftMotor.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+        LiftMotor.setTargetPosition(100000);
+        LiftMotor.setPower(RightJoyY);
+    }
+    else if(RightJoyY < 0){
+        LiftMotor.setMode((DcMotor.RunMode.RUN_TO_POSITION));
+        LiftMotor.setTargetPosition(-10000);
         LiftMotor.setPower(RightJoyY);
     }
 
