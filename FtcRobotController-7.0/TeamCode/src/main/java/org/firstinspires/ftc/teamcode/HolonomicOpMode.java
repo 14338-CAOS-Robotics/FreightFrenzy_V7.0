@@ -84,8 +84,8 @@ public class HolonomicOpMode extends OpMode
     public void init_loop() {
         LiftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         LiftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        LiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        //LiftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        //LiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        LiftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
         //LiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -151,17 +151,17 @@ public class HolonomicOpMode extends OpMode
             RightArm.setPosition(0.5);
         }
         else if(X_1Button == false){
-            XIsPressed = true;
+            XIsPressed = false;
         }
 
         //Close
-        if(Y_1Button == true && YIsPressed == false) {
-            YIsPressed = true;
+        if(B_1Button == true && BIsPressed == false) {
+            BIsPressed = true;
             LeftArm.setPosition(0.5);
             RightArm.setPosition(0);
         }
-        else if(Y_1Button == false) {
-            YIsPressed = true;
+        else if(B_1Button == false) {
+            BIsPressed = false;
         }
 
 
@@ -208,7 +208,7 @@ public class HolonomicOpMode extends OpMode
             currentLiftPosition += 1;
             LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
             LiftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            LiftMotor.setPower(-0.5);
+            LiftMotor.setPower(0.5);
 
         } else if(!Y_1Button) {
             YIsPressed = false;
@@ -216,21 +216,21 @@ public class HolonomicOpMode extends OpMode
         }
 
         //Make the lift go down
-        if(X_1Button && !XIsPressed && currentLiftPosition > 0){
-            XIsPressed = true;
+        if(A_1Button && !AIsPressed && currentLiftPosition > 0){
+            AIsPressed = true;
             currentLiftPosition -= 1;
             LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
             LiftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             LiftMotor.setPower(-0.5);
 
-        } else if(!X_1Button) {
-            XIsPressed = false;
+        } else if(!A_1Button) {
+            AIsPressed = false;
         }
 
 
 
 
-        LiftMotor.setPower(RightJoyY);
+        //LiftMotor.setPower(RightJoyY);
 
         holonomicDrive.teleopDrive(x,y,z);
 
