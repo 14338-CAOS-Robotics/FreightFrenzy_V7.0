@@ -165,7 +165,7 @@ public class HolonomicOpMode extends OpMode
         }
 
 
-
+        //spins the carousel servos
         if(LB_1Button == true && LBIsPressed == false){
             LBIsPressed = true;
             CMotor1.setPower(0.5);
@@ -184,6 +184,8 @@ public class HolonomicOpMode extends OpMode
             RBIsPressed = false;
         }
 
+
+        //spins the intake motor to either intake items, or spits out items
         if(LT_1Button > 0 && !LTIsPressed) {
             LTIsPressed = true;
             intakeServo.setPower(0.5);
@@ -192,7 +194,6 @@ public class HolonomicOpMode extends OpMode
             LTIsPressed = false;
             intakeServo.setPower(0);
         }
-
         if(RT_1Button > 0 && !RTIsPressed) {
             RTIsPressed = true;
             intakeServo.setPower(-0.5);
@@ -201,6 +202,8 @@ public class HolonomicOpMode extends OpMode
             RTIsPressed = false;
             intakeServo.setPower(0);
         }
+
+
 
         // Make the lift go UP
         if(Y_1Button && !YIsPressed && currentLiftPosition < (liftPos.length - 1)){
@@ -228,9 +231,11 @@ public class HolonomicOpMode extends OpMode
         }
 
 
+        //failsafe to test if mainual control is or isn't working
+    if(!(RightJoyY <= 0)) {
+        LiftMotor.setPower(RightJoyY);
+    }
 
-
-        //LiftMotor.setPower(RightJoyY);
 
         holonomicDrive.teleopDrive(x,y,z);
 
