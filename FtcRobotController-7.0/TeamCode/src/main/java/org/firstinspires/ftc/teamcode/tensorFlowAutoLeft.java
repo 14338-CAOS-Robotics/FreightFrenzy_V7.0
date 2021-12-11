@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -50,7 +51,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-public class tensorFlowAuto extends LinearOpMode {
+public class tensorFlowAutoLeft extends LinearOpMode {
     /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
      * the following 4 detectable objects
      *  0: Ball,
@@ -70,6 +71,14 @@ public class tensorFlowAuto extends LinearOpMode {
             "Marker"
     };
 
+    int objPosition = 0;
+    double leftBound = 240;
+    double rightBound = 480;
+    double leftPos = 0;
+    boolean inLeft = false;
+    boolean inMiddle = false;
+    boolean inRight = false;
+    private ElapsedTime runtime = new ElapsedTime();
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
@@ -125,7 +134,6 @@ public class tensorFlowAuto extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
-        waitForStart();
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
@@ -144,11 +152,36 @@ public class tensorFlowAuto extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
+                            leftPos = recognition.getLeft();
                             i++;
                         }
                         telemetry.update();
                     }
                 }
+                waitForStart();
+
+                // Create and store variable of its position with if statements
+                if(leftPos < leftBound) {
+                    inLeft = true;
+                } else if(rightBound > leftPos) {
+                    inRight = true;
+                } else if(leftPos > leftBound && rightBound < leftPos) {
+                    inMiddle = true;
+                }
+                // Execute movements
+                runtime.reset();
+                holonomicDrive.autoDrive(330, 0.5);
+                while (opModeIsActive() && runtime.seconds() < 0.5) {
+
+                }
+                holonomicDrive.stopMoving();
+                runtime.reset();
+
+                // Move Lift
+                if(inLeft) {
+
+                }
+                //Deploy
             }
         }
     }
