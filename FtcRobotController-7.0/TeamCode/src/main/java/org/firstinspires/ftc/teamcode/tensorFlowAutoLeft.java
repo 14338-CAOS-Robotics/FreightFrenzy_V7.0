@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -76,6 +77,7 @@ public class tensorFlowAutoLeft extends LinearOpMode {
             "Marker"
     };
 
+    private int[] liftPos = {0, 475, 1150, 2050, 6000, 8000, 10000};
     int objPosition = 0;
     double leftBound = 240;
     double rightBound = 480;
@@ -208,13 +210,17 @@ public class tensorFlowAutoLeft extends LinearOpMode {
                 holonomicDrive.stopMoving();
                 runtime.reset();
 
-                Gyro.rotate(90, 0.3);
+                Gyro.rotate(45, 0.3);
 
                 // Move Lift
                 if(inLeft) {
-
+                    LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
+                    LiftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                    LiftMotor.setPower(0.5);
                 }
                 //Deploy
+                LeftArm.setPosition(0);
+                RightArm.setPosition(0.5);
             }
         }
     }
