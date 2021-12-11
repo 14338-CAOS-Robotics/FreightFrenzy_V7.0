@@ -170,7 +170,7 @@ public class HolonomicOpMode extends OpMode
         //spins the carousel servos
         if(LB_1Button == true && LBIsPressed == false){
             LBIsPressed = true;
-            CMotor1.setPower(0.5);
+            CMotor1.setPower(-0.5);
             CMotor2.setPower(0.5);
 
         }
