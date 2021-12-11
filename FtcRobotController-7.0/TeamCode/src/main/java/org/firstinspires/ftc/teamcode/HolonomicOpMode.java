@@ -66,9 +66,9 @@ public class HolonomicOpMode extends OpMode
         LiftMotor = hardwareMap.get(DcMotorEx.class, "lift_motor");
         LeftArm = hardwareMap.get(Servo.class, "left_arm");
         RightArm = hardwareMap.get(Servo.class, "right_arm");
+        intakeServo = hardwareMap.get(CRServo.class, "intake_servo");
         CMotor1 = hardwareMap.get(CRServo.class, "carousel_motor_1");
         CMotor2 = hardwareMap.get(CRServo.class, "carousel_motor_2");
-        intakeServo = hardwareMap.get(CRServo.class, "intake_servo");
 
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
@@ -245,7 +245,7 @@ public class HolonomicOpMode extends OpMode
         }
 
 
-        //failsafe to test if mainual control is or isn't working
+        //failsafe to test if encoder control is or isn't working
     if(RightJoyY > 0) {
         LiftMotor.setMode((DcMotor.RunMode.RUN_TO_POSITION));
         LiftMotor.setTargetPosition(100000);

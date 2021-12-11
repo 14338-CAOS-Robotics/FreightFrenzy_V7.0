@@ -29,7 +29,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -56,7 +59,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
+@Autonomous(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
 public class tensorFlowAutoLeft extends LinearOpMode {
     /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
      * the following 4 detectable objects
@@ -88,6 +91,10 @@ public class tensorFlowAutoLeft extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
+    private DcMotorEx LiftMotor;
+    private CRServo CMotor1, CMotor2, intakeServo;
+
+    private Servo LeftArm, RightArm;
     BNO055IMU               imu;
     Orientation lastAngles = new Orientation();
     HolonomicDrive holonomicDrive;
@@ -125,15 +132,23 @@ public class tensorFlowAutoLeft extends LinearOpMode {
         // first.
         initVuforia();
         initTfod();
-        FrontRightMotor  = hardwareMap.get(DcMotor.class, "front_right_drive");
+        FrontRightMotor = hardwareMap.get(DcMotor.class, "front_right_drive");
         FrontLeftMotor = hardwareMap.get(DcMotor.class, "front_left_drive");
-        BackRightMotor  = hardwareMap.get(DcMotor.class, "back_right_drive");
+        BackRightMotor = hardwareMap.get(DcMotor.class, "back_right_drive");
         BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
+        LiftMotor = hardwareMap.get(DcMotorEx.class, "lift_motor");
+        LeftArm = hardwareMap.get(Servo.class, "left_arm");
+        RightArm = hardwareMap.get(Servo.class, "right_arm");
+        intakeServo = hardwareMap.get(CRServo.class, "intake_servo");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        LiftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        LiftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        //LiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        LiftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        parameters.mode                = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.loggingEnabled      = false;
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.loggingEnabled = false;
 
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
@@ -161,7 +176,7 @@ public class tensorFlowAutoLeft extends LinearOpMode {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(2.5, 16.0/9.0);
+            tfod.setZoom(2.5, 16.0 / 9.0);
         }
 
         /** Wait for the game to begin */
@@ -194,17 +209,17 @@ public class tensorFlowAutoLeft extends LinearOpMode {
                 waitForStart();
 
                 // Create and store variable of its position with if statements
-                if(leftPos < leftBound) {
-                    inLeft = true;
-                } else if(rightBound > leftPos) {
-                    inRight = true;
-                } else if(leftPos > leftBound && rightBound < leftPos) {
-                    inMiddle = true;
+                if (leftPos < leftBound) {
+                    objPosition = 0;
+                } else if (rightBound > leftPos) {
+                    objPosition = 2;
+                } else if (leftPos > leftBound && rightBound < leftPos) {
+                    objPosition = 1;
                 }
                 // Execute movements
                 runtime.reset();
                 holonomicDrive.autoDrive(330, 0.5);
-                while (opModeIsActive() && runtime.seconds() < 0.5) {
+                while (opModeIsActive() && runtime.seconds() < 2) {
 
                 }
                 holonomicDrive.stopMoving();
@@ -213,14 +228,18 @@ public class tensorFlowAutoLeft extends LinearOpMode {
                 Gyro.rotate(45, 0.3);
 
                 // Move Lift
-                if(inLeft) {
-                    LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
+                if (inLeft) {
+                    LiftMotor.setTargetPosition(liftPos[objPosition + 1]);
                     LiftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
                     LiftMotor.setPower(0.5);
                 }
+                sleep(3000);
                 //Deploy
-                LeftArm.setPosition(0);
-                RightArm.setPosition(0.5);
+                intakeServo.setPower(-0.5);
+                while (opModeIsActive() && runtime.seconds() < 3) {
+                }
+                intakeServo.setPower(0);
+
             }
         }
     }
