@@ -38,6 +38,10 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.gyro;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * This 2020-2021 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -50,7 +54,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-public class tensorFlowAuto extends LinearOpMode {
+public class tensorFlowAuto<FrontRightMotor> extends LinearOpMode {
     /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
      * the following 4 detectable objects
      *  0: Ball,
@@ -69,6 +73,14 @@ public class tensorFlowAuto extends LinearOpMode {
             "Duck",
             "Marker"
     };
+    private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
+
+    BNO055IMU               imu;
+    Orientation lastAngles = new Orientation();
+    HolonomicDrive holonomicDrive;
+    gyro Gyro;
+
+
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -103,6 +115,28 @@ public class tensorFlowAuto extends LinearOpMode {
         // first.
         initVuforia();
         initTfod();
+
+
+        FrontRightMotor = hardwareMap.get(DcMotor.class, "front_right_drive");
+        FrontLeftMotor = hardwareMap.get(DcMotor.class, "front_left_drive");
+        BackRightMotor  = hardwareMap.get(DcMotor.class, "back_right_drive");
+        BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.loggingEnabled      = false;
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        imu.initialize(parameters);
+
+        // Setting our holonomic drive to use our 2 front and 2 back motors
+        holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
+        Gyro = new gyro(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, imu);
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.
