@@ -47,6 +47,7 @@ public class HolonomicOpMode extends OpMode
     boolean DPADRightIsPressed = false;
     boolean LTIsPressed = false;
     boolean RTIsPressed = false;
+    boolean BackIsPressed = false;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -119,6 +120,7 @@ public class HolonomicOpMode extends OpMode
         boolean DPR_1Button = gamepad1.dpad_right;
         double LT_1Button = gamepad1.left_trigger;
         double RT_1Button = gamepad1.right_trigger;
+        boolean backButton = gamepad1.back;
 
 
 
@@ -145,23 +147,23 @@ public class HolonomicOpMode extends OpMode
         // Control arms holding the element
 
         // Open wheels
-        if(X_1Button == true && XIsPressed == false){
-            XIsPressed = true;
+        if(B_1Button == true && BIsPressed == false){
+            BIsPressed = true;
             LeftArm.setPosition(0);
             RightArm.setPosition(0.5);
         }
-        else if(X_1Button == false){
-            XIsPressed = false;
+        else if(B_1Button == false){
+            BIsPressed = false;
         }
 
         //Close
-        if(B_1Button == true && BIsPressed == false) {
-            BIsPressed = true;
+        if(X_1Button == true && XIsPressed == false) {
+            XIsPressed = true;
             LeftArm.setPosition(0.5);
             RightArm.setPosition(0);
         }
-        else if(B_1Button == false) {
-            BIsPressed = false;
+        else if(X_1Button == false) {
+            XIsPressed = false;
         }
 
 
@@ -228,6 +230,18 @@ public class HolonomicOpMode extends OpMode
 
         } else if(!A_1Button) {
             AIsPressed = false;
+        }
+
+        //make lift go to pos 0
+        if(backButton && !BackIsPressed && currentLiftPosition > 0){
+            BackIsPressed = true;
+            currentLiftPosition = 0;
+            LiftMotor.setTargetPosition(liftPos[currentLiftPosition]);
+            LiftMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            LiftMotor.setPower(-0.5);
+
+        } else if(!A_1Button) {
+            BackIsPressed = false;
         }
 
 
