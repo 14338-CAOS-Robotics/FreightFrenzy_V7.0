@@ -33,7 +33,7 @@ public class HolonomicOpMode extends OpMode
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
     private DcMotorEx LiftMotor;
     private CRServo CMotor1, CMotor2, intakeServo;
-    private int[] liftPos = {0, 475, 1150, 2050, 6000, 8000, 10000};
+    private int[] liftPos = {0, 475, 1150, 2050, 3500, 8000, 10000};
     private int currentLiftPosition = 0;
     private Servo LeftArm, RightArm;
     HolonomicDrive holonomicDrive;
